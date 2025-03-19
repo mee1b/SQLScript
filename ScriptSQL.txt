@@ -1,45 +1,48 @@
-CREATE TABLE IF NOT EXISTS genres_list (
-	id_genres_list SERIAL PRIMARY key,	
+CREATE TABLE IF NOT EXISTS genres(
+	id_genres SERIAL PRIMARY key,	
 	genre_name VARCHAR(40) NOT NULL
 );
 
-CREATE TABLE IF NOT EXISTS performers_list (
-	id_performers_list SERIAL PRIMARY key,	
+CREATE TABLE IF NOT EXISTS performers(
+	id_performers SERIAL PRIMARY key,	
 	performer_name VARCHAR(40) NOT NULL
 );
 
-CREATE TABLE IF NOT EXISTS album_list (
-	id_album_list SERIAL PRIMARY key,	
+CREATE TABLE IF NOT EXISTS album(
+	id_album SERIAL PRIMARY key,	
 	album_name VARCHAR(40) NOT null,
 	album_release_year VARCHAR(4) NOT null
 );
 
-CREATE TABLE IF NOT EXISTS track_list (
-	id_track_list SERIAL PRIMARY key,	
+CREATE TABLE IF NOT EXISTS track (
+	id_track SERIAL PRIMARY key,	
 	track_name VARCHAR(40) NOT null,
 	duration_track TIME NOT null,
-	id_album_list INTEGER NOT NULL references album_list(id_album_list)
+	id_album INTEGER NOT NULL references album(id_album)
 );
 
 CREATE TABLE IF NOT EXISTS broker_genres_performers (
-	id_genres_list INTEGER NOT NULL references genres_list(id_genres_list),
-	id_performers_list INTEGER NOT NULL references performers_list(id_performers_list)
+	id_genres INTEGER NOT NULL references genres(id_genres),
+	id_performers INTEGER NOT NULL references performers(id_performers)
+	PRIMARY key (id_genres, id_perfomers)
 );
 
 CREATE TABLE IF NOT EXISTS broker_performers_album (
-	id_album_list INTEGER NOT NULL references album_list(id_album_list),
-	id_performers_list INTEGER NOT NULL references performers_list(id_performers_list)
+	id_album INTEGER NOT NULL references album(id_album),
+	id_performers INTEGER NOT NULL references performers(id_performers)
+	PRIMARY key (id_album, id_perfomers)
 );
 
-CREATE TABLE IF NOT EXISTS collections_list (
-	id_collections_list SERIAL PRIMARY key,	
+CREATE TABLE IF NOT EXISTS collections (
+	id_collections SERIAL PRIMARY key,	
 	collection_name VARCHAR(40) NOT null,
 	collection_release_year VARCHAR(4) NOT null,
-	id_track_list INTEGER NOT NULL references track_list(id_track_list),
-	id_album_list INTEGER NOT NULL references album_list(id_album_list)
+	id_track INTEGER NOT NULL references track(id_track),
+	id_album INTEGER NOT NULL references album(id_album)
 );
 
 CREATE TABLE IF NOT EXISTS broker_album_track (
-	id_album_list INTEGER NOT NULL references album_list(id_album_list),
-	id_track_list INTEGER NOT NULL references track_list(id_track_list)
+	id_album INTEGER NOT NULL references album(id_album),
+	id_track INTEGER NOT NULL references track(id_track)
+	PRIMARY key (id_album, id_track)
 );
